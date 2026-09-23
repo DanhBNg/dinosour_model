@@ -1,6 +1,6 @@
 ﻿# Dinosaur demo
 
-Standalone interactive dinosaur viewer with five models, animation controls, and animated model previews.
+Standalone interactive dinosaur viewer with six models, animation controls, and animated model previews.
 
 ## Deploy on Vercel
 
@@ -10,4 +10,6 @@ Import this GitHub repository. Choose the Other framework preset and keep the ro
 
 Replace index.html with the latest Dinosaur-Demo.html export from the source project, then commit and push. Vercel automatically redeploys connected repositories.
 
-The HTML embeds the models, textures, scripts, and previews; no additional asset folders are required. Initial download is approximately 62 MiB.
+The HTML embeds the models, textures, scripts, and previews; no additional asset folders are required. Initial download is approximately 74 MiB.
+
+Stegosaurus is the second gallery entry after T-Rex, with 11 imported actions (action 7 is the source T-pose).

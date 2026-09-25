@@ -10,8 +10,8 @@ Import this repository with the Other framework preset and repository root as th
 
 Copy the latest Creature-Lab-Demo.html export to index.html, and copy previews/*.mp4 from the source project into previews/. Commit and push both. A connected Vercel project can automatically redeploy the update.
 
-Models, textures, scripts, and PNG posters are embedded in index.html (approximately 81.57 MiB). The twelve MP4 previews are separate files totaling approximately 159 KiB. Deploy the previews directory alongside index.html; copying only the HTML will omit motion previews.
+Models, textures, scripts, and PNG posters are embedded in index.html (approximately 81.62 MiB). The 36 MP4 previews (three actions per model) are separate files totaling approximately 932 KiB. Deploy the previews directory alongside index.html; copying only the HTML will omit motion previews.
 
-Previews are silent H.264 videos at 360x240, 20 FPS. Hover or keyboard focus plays a preview; leaving or changing categories stops it. Reduced-motion preferences retain static posters.
+Previews are silent H.264 videos at 360x240, 20 FPS. Previews use bright backgrounds and cameras fitted to each animated model. Hover or keyboard focus plays random clips without immediate repeats. Touch devices autoplay up to two visible cards. Default model and video speeds are 1.25x for dinosaurs and 1.5x for animals. Reduced-motion preferences retain static posters.
 
 The source project maintains the editable Three.js code and export scripts. This repository contains the deployable demo.

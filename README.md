@@ -15,3 +15,8 @@ Models, textures, scripts, and PNG posters are embedded in index.html (approxima
 Previews are silent H.264 videos at 360x240, 20 FPS. Previews use bright backgrounds and cameras fitted to each animated model. Hover or keyboard focus plays random clips without immediate repeats. Touch devices autoplay up to two visible cards. Default model and video speeds are 1.25x for dinosaurs and 1.5x for animals. Reduced-motion preferences retain static posters.
 
 The source project maintains the editable Three.js code and export scripts. This repository contains the deployable demo.
+
+## Authored T-Rex roar and tail sweep
+
+The demo includes a code-authored roar and tail sweep with planted-foot IK, trunk elevation, tail counterbalance, weight transfer and delayed chest/neck/head motion. No source animation clips are sampled for this action. The animation workflow is documented in docs/QUY_TRINH_TAO_ANIMATION.md. source-reference/roar-sweep.js is the editable action module for reference; it requires the original Three.js rig and is not a standalone build project. Runtime code is already embedded in index.html.
+

@@ -69,3 +69,6 @@ footer{height:auto;padding:9px 26px}
 @media(max-width:750px){main:has(.model-gallery){grid-template-rows:180px minmax(230px,1fr) minmax(0,32%)}.category-tabs{margin-bottom:8px}.model-card img,.model-card video{height:70px}.model-card span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.title{max-width:calc(100% - 168px)}.title h1{font-size:21px}}
 
 .model-preview{position:relative}.model-preview video{position:absolute;inset:0;opacity:0;pointer-events:none}.model-preview.playing video{opacity:1}
+
+/* Creature silhouettes paint above decorative headings; controls stay interactive. */
+#stage canvas{position:relative;z-index:2}#stage .title{z-index:1}#stage .tools,#stage .caption{z-index:4}#stage #loading{z-index:6}

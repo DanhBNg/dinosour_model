@@ -15,6 +15,19 @@ const turns=[[0,0],[2.6,0],[3.15,-.32],[3.32,.05],[3.57,1.40],[3.76,1.65],[4.2,1
 // Each foot travels only during its own swing interval. The other remains planted.
 const steps={L:[[2.7,3.15,-.28],[3.5,3.88,1.65],[4.8,5.32,.45],[5.86,6.3,0]],R:[[3.16,3.49,1.4],[4.24,4.78,1.05],[5.34,5.84,0]]};
 
+// Curvature, not a shared rotation: a firm base and progressively delayed flexible sections.
+// The terminal bone has no child joint, so the visible bend is concentrated in segments 2–5.
+export function tailSweepAngles(t){
+ const wind=[.09,.19,.31,.39,.43,.34],strike=[.12,.25,.39,.47,.49,.38];
+ return wind.map((amplitude,i)=>{
+  const delay=i*.062;
+  return curve([[0,0],[2.65+delay*.35,0],[3.13+delay*.35,-amplitude],
+   [3.30+delay,-amplitude],[3.53+delay,strike[i]],
+   [3.87+delay,strike[i]*.28],[4.25+delay,-strike[i]*.18],
+   [4.65+delay,strike[i]*.045],[5.05+delay,0]],t);
+ });
+}
+
 export function createRoarSweep(root){
  const bones={};root.traverse(b=>{if(b.isBone&&!bones[b.name])bones[b.name]=b;});
  // Static asset transforms only: never access an AnimationClip or mixer here.
@@ -101,10 +114,10 @@ export function createRoarSweep(root){
   rotate('jt_Head_C',UP,.12*lag(.27,.5));
   rotate('jt_Spine2_C',front,-.04*brace+.035*recoil);
   rotate('jt_Neck2_C',front,.025*brace-.02*recoil);
+  const tailAngles=tailSweepAngles(t);
   for(let i=1;i<=6;i++){
    const lag=(i-1)*.028;
-   const curl=curve([[0,0],[2.65+lag,0],[3.13+lag,-.16],[3.32+lag,-.18],[3.60+lag,.32],[3.82+lag,.23],[4.18+lag,.12],[4.65+lag,-.035],[5.15+lag,0]],t);
-   rotate('jt_Tail'+i+'_C',UP,curl*(i<3?.75:1));
+   rotate('jt_Tail'+i+'_C',UP,tailAngles[i-1]);
    rotate('jt_Tail'+i+'_C',side,-.012*pulse(.48+lag,1.25+lag,2.12+lag,2.9+lag,t)+.018*brace);
   }
   for(const s of ['L','R']){

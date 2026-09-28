@@ -1,6 +1,1 @@
-{
-  "framework": null,
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": "."
-}
+{"framework":null,"installCommand":"npm ci --omit=optional","buildCommand":"npm run build","outputDirectory":"dist"}

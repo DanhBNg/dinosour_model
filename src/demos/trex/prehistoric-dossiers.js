@@ -1,0 +1,30 @@
+// Values are reference estimates, never measurements of the displayed mesh.
+// Sources are indexed against each record.sources; unknown is distinct from zero.
+const text=(group,key,label,value,evidence='documented')=>({group,key,label,value,type:'text',status:'known',evidence,sourceIds:[0]});
+const number=(key,label,value,unit)=>({group:'Kích thước tham khảo',key,label,value,unit,type:'number',status:'known',evidence:'estimate',sourceIds:[0],note:'Ước tính tham khảo của NHM; thay đổi theo mẫu vật, không phải kích thước cố định của loài.'});
+const unknown=(key,label,note)=>({group:'Giới hạn dữ liệu',key,label,value:null,type:'number',status:'unknown',evidence:'unresolved',sourceIds:[],note});
+export function expandPrehistoricRecords(records){
+ const data={
+  trex:{rank:'Loài',family:'Tyrannosauridae',named:'Osborn, 1905',meaning:'Vua thằn lằn bạo chúa',length:12,mass:7000,period:'68–66 triệu năm trước',range:'Canada, Hoa Kỳ',locomotion:'Hai chân',teeth:'Răng lớn, cạnh răng cưa',defense:'Hàm khỏe',integument:'Không suy ra màu da từ model',social:'Săn theo bầy chưa được xác nhận',parts:[['Đầu và hàm','Hộp sọ lớn; răng có thể nghiền xương.'],['Chi trước','Ngắn; chức năng còn tranh luận.'],['Chi sau','Nâng đỡ cơ thể khi di chuyển.'],['Đuôi','Đối trọng phía sau thân.']]},
+  stego:{rank:'Chi',family:'Stegosauridae',named:'Marsh, 1877',meaning:'Thằn lằn mái nhà',length:9,period:'152–145 triệu năm trước',range:'Hoa Kỳ',locomotion:'Bốn chân',teeth:'Ăn thực vật',defense:'Đuôi có gai',integument:'Các tấm xương nằm trong da',social:'Không xác nhận từ asset',parts:[['Đầu','Nhỏ so với thân.'],['Tấm lưng','Xếp xen kẽ; chức năng còn tranh luận.'],['Đuôi','Mang gai, có vai trò phòng vệ.'],['Chi','Dáng đi bốn chân.']]},
+  trice:{rank:'Chi',family:'Ceratopsidae',named:'Marsh, 1889',meaning:'Mặt ba sừng',length:9,mass:10000,period:'68–66 triệu năm trước',range:'Hoa Kỳ',locomotion:'Bốn chân',teeth:'Mỏ sừng, răng cắt thực vật',defense:'Ba sừng, diềm sọ',integument:'Dấu da hóa thạch có vảy lớn',social:'Hóa thạch thường tìm thấy riêng lẻ',parts:[['Sừng','Lõi xương phủ keratin.'],['Diềm sọ','Có thể liên quan nhận diện hoặc trình diễn.'],['Mỏ và hàm','Cắt và xử lý thực vật.'],['Chi','Nâng đỡ thân trên bốn chân.']]},
+  deino:{rank:'Loài',family:'Dromaeosauridae',named:'Ostrom, 1969',meaning:'Móng vuốt đáng sợ',length:3.4,mass:100,period:'115–108 triệu năm trước',range:'Hoa Kỳ',locomotion:'Hai chân',teeth:'Răng cong về sau',defense:'Móng lớn ở ngón chân II',integument:'Lông: suy luận từ họ hàng gần',social:'Không xác nhận hành vi từ animation',parts:[['Bàn chân','Móng cong lớn ở ngón thứ hai.'],['Đuôi','Dài, tương đối cứng; giúp cân bằng.'],['Hàm','Răng cong về sau.'],['Lớp phủ','Lông có khả năng hiện diện; chưa có bằng chứng trực tiếp.']]},
+  mosa:{rank:'Chi; asset chưa rõ loài',family:'Mosasauridae',named:'Chi đặt tên năm 1822',meaning:'Thằn lằn sông Meuse',period:'Phấn Trắng muộn',range:'Hóa thạch nổi tiếng: Maastricht, Hà Lan',locomotion:'Bơi',teeth:'Răng bắt con mồi',defense:'Động vật săn mồi biển',integument:'Màu model là phục dựng',social:'Chưa xác định cho model này',parts:[['Hàm','Có các khớp linh động kiểu Squamata.'],['Chi','Biến đổi thành vây.'],['Đuôi','Tham gia tạo lực đẩy khi bơi.'],['Phổi','Bò sát thở không khí.']]},
+  ptero:{rank:'Nhóm Pterosauria; chưa rõ loài',family:'Chưa xác định',named:'Không gán tác giả loài khi chưa định danh',meaning:'Bò sát bay',period:'Tam Điệp muộn đến cuối Phấn Trắng',range:'Phân bố rộng; phụ thuộc loài',locomotion:'Bay chủ động',teeth:'Có hoặc không có răng, tùy loài',defense:'Không suy ra hành vi từ model',integument:'Màng cánh',social:'Thay đổi theo loài',parts:[['Cánh','Màng cánh; ngón tay IV kéo dài nâng đỡ.'],['Hàm','Hình dạng và thức ăn khác nhau theo loài.'],['Bộ xương','Thích nghi với bay chủ động.'],['Chân','Hình thái cần đối chiếu loài cụ thể.']]},
+ };
+ for(const [id,d]of Object.entries(data)){
+  const r=records[id];r.sources[0].accessedAt='2026-09-25';
+  r.attributes.forEach(a=>{a.group=['period','range'].includes(a.key)?'Niên đại và phân bố':'Sinh thái';a.status='known';a.evidence='documented';});
+  r.attributes.find(a=>a.key==='period').value=d.period;
+  r.attributes.find(a=>a.key==='range').value=d.range;
+  r.attributes.push(text('Định danh','taxon_rank','Cấp định danh',d.rank),text('Định danh','family','Họ',d.family),text('Định danh','named_by','Đặt tên',d.named),text('Định danh','name_meaning','Ý nghĩa tên',d.meaning));
+  if(d.length)r.attributes.push(number('body_length','Chiều dài tham khảo',d.length,'m'));
+  if(d.mass)r.attributes.push(number('body_mass','Khối lượng tham khảo',d.mass,'kg'));
+  else r.attributes.push(unknown('body_mass','Khối lượng','Chưa chọn ước tính phù hợp với định danh của model.'));
+  if(!d.length)r.attributes.push(unknown('body_length','Chiều dài','Cần xác định loài và mẫu tham chiếu trước khi gán số đo.'));
+  r.attributes.push(text('Giải phẫu và vận động','locomotion','Vận động',d.locomotion),text('Giải phẫu và vận động','dentition','Hàm / răng',d.teeth),text('Giải phẫu và vận động','distinctive_feature','Đặc điểm nổi bật',d.defense),text('Giải phẫu và vận động','integument','Lớp phủ',d.integument,id==='deino'?'inferred':'documented'),text('Sinh thái','social_behavior','Hành vi xã hội',d.social,'uncertain'),unknown('max_speed','Tốc độ tối đa','Không gán tốc độ animation cho tốc độ sinh học.'),unknown('lifespan','Tuổi thọ','Chưa nhập giá trị có nguồn phù hợp.'));
+  r.parts=d.parts.map(([name,description],i)=>({key:id+'-part-'+i,name,description,sourceIds:[0]}));
+  r.reconstruction={scale:'Model được chuẩn hóa để xem; không biểu diễn tỉ lệ thật giữa các loài.',motion:'Animation là minh họa; không phải kết quả tái dựng cơ sinh học.',appearance:'Màu sắc và mô mềm có phần suy đoán; đối chiếu hóa thạch trước khi dùng làm tài liệu khoa học.'};
+  if(id==='mosa')r.attributes.push(text('Kích thước tham khảo','size_debate','Tranh luận kích thước','M. hoffmannii: có ước tính 11–12 m và 17–18 m; không gán cho asset chưa rõ loài.','uncertain'));
+ }
+}
